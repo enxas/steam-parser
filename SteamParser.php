@@ -8,7 +8,7 @@ class SteamParser {
 	static private function getAppId($finder) {
 		$nodes = $finder->query("//input[@id='review_appid']/@value");
 
-		static::$result['app_id'] = $nodes[0]?->nodeValue ?? null;
+		static::$result['app_id'] = intval($nodes[0]?->nodeValue) ?? null;
 	}
 
 	static private function getDescription($finder) {
