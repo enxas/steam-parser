@@ -17,12 +17,6 @@ class SteamParser {
 		static::$result['description'] = trim(str_replace("\n", ' ', str_replace(["\t", "\r"], '', $nodes[0]->nodeValue)));
 	}
 
-	static private function getHeaderImage($finder) {
-		$nodes = $finder->query("//img[contains(concat(' ', normalize-space(@class), ' '), ' game_header_image_full ')]/@src");
-
-		static::$result['header_image'] = $nodes[0]->nodeValue;
-	}
-
 	static private function getTags($finder) {
 		$nodes = $finder->query("//div[contains(concat(' ', normalize-space(@class), ' '), ' popular_tags ')]/a");
 		$data = [];
@@ -83,11 +77,7 @@ class SteamParser {
 		$nodes = $finder->query("//div[@id='highlight_player_area']//a//@data-screenshotid");
 
 		foreach ($nodes as $tagNode) {
-			[$fileName, $extension] = explode('.', $tagNode->nodeValue);
-			static::$result['images'][] = array_map(
-				fn ($size) => 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/'.$appId.'/'.$fileName.'.'.$size.'.'.$extension, 
-				['116x65', '600x338', '1920x1080']
-			);
+			static::$result['images'][] = $tagNode->nodeValue;
 		}
 	}
 		
@@ -95,17 +85,9 @@ class SteamParser {
 		$nodes = $finder->query("//div[@id='highlight_player_area']//div[contains(concat(' ', normalize-space(@class), ' '), ' highlight_movie ')]");
 		
 		foreach ($nodes as $tagNode) {
-			static::$result['videos'][] = [
-				'webm' => [
-					$tagNode->getAttribute('data-webm-source'),
-					$tagNode->getAttribute('data-webm-hd-source'),
-				],
-				'mp4' => [
-					$tagNode->getAttribute('data-mp4-source'),
-					$tagNode->getAttribute('data-mp4-hd-source'),
-				],
-				'poster' => $tagNode->getAttribute('data-poster'),
-			];
+			$videoUrl = parse_url($tagNode->getAttribute('data-webm-source'));
+			$videoUrlParts= explode('/', $videoUrl['path'])[3];
+			static::$result['videos'][] = $videoUrlParts;
 		}
 	}
 
@@ -137,7 +119,6 @@ class SteamParser {
 		static::getPublishers($finder);
 		static::getFranchise($finder);
 		static::getFeatures($finder);
-		static::getHeaderImage($finder);
 		static::getImages($finder, static::$result['app_id']);
 		static::getVideos($finder);
 
