@@ -3,6 +3,7 @@
 namespace Enxas;
 
 class SteamParser {
+	/** @var array */
 	static private $result = [];
 
 	static private function getAppId($finder) {
