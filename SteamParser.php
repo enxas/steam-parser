@@ -8,7 +8,7 @@ class SteamParser {
 	static private function getAppId($finder) {
 		$nodes = $finder->query("//input[@id='review_appid']/@value");
 
-		static::$result['app_id'] = intval($nodes[0]?->nodeValue) ?? null;
+		static::$result['app_id'] = intval($nodes[0]?->nodeValue);
 	}
 
 	static private function getDescription($finder) {
@@ -107,7 +107,7 @@ class SteamParser {
 		
 		static::getAppId($finder);
 
-		if (static::$result['app_id'] === null) {
+		if (static::$result['app_id'] === 0) {
 			return ['error' => 'The provided HTML doesn\'t contain game data. You might have scraped a game page that requires age verification.'];
 		}
 
