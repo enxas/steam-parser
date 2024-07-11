@@ -39,6 +39,7 @@ $steaGamemData = Enxas\SteamParser::parse($contents);
   "description" => "Guild Wars 2 is an award-winning online roleplaying game with fast-paced action combat, deep character customization, and no subscription fee required. Choose from an arsenal of professions and weapons, explore a vast open world, compete in PVP modes and more. Join over 16 million players now!"
   "release_date" => "23 Aug, 2022"
   "tags" => array:20 [▶]
+  "genres" => array:3 [▶]
   "developers" => array:1 [▶]
   "publishers" => array:1 [▶]
   "franchise" => "Guild Wars"

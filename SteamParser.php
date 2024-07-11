@@ -29,6 +29,17 @@ class SteamParser {
 		static::$result['tags'] = $data;
 	}
 
+	static private function getGenres($finder) {
+		$nodes = $finder->query("//div[@id='genresAndManufacturer']//b[text()='Genre:']//following-sibling::span/a");
+		$data = [];
+
+		foreach ($nodes as $tagNode) {
+			$data[] = $tagNode->nodeValue;
+		}
+
+		static::$result['genres'] = $data;
+	}
+
 	static private function getTitle($finder) {
 		$nodes = $finder->query("//div[@id='appHubAppName']");
 
@@ -116,6 +127,7 @@ class SteamParser {
 		static::getDescription($finder);
 		static::getReleaseDate($finder);
 		static::getTags($finder);
+		static::getGenres($finder);
 		static::getDevelopers($finder);
 		static::getPublishers($finder);
 		static::getFranchise($finder);
