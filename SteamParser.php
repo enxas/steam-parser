@@ -99,7 +99,7 @@ class SteamParser {
 		foreach ($nodes as $tagNode) {
 			$videoUrl = parse_url($tagNode->getAttribute('data-webm-source'));
 			$videoUrlParts= explode('/', $videoUrl['path'])[3];
-			static::$result['videos'][] = $videoUrlParts;
+			static::$result['videos'][] = intval($videoUrlParts);
 		}
 	}
 
