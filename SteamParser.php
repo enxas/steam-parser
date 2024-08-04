@@ -7,7 +7,7 @@ class SteamParser {
 	static private $result = [];
 
 	static private function getAppId($finder) {
-		$nodes = $finder->query("//input[@id='review_appid']/@value");
+		$nodes = $finder->query("//div[contains(concat(' ', normalize-space(@class), ' '), ' game_page_background ')]/@data-miniprofile-appid");
 
 		static::$result['app_id'] = intval($nodes[0]?->nodeValue);
 	}
@@ -98,7 +98,7 @@ class SteamParser {
 		
 		foreach ($nodes as $tagNode) {
 			$videoUrl = parse_url($tagNode->getAttribute('data-webm-source'));
-			$videoUrlParts= explode('/', $videoUrl['path'])[3];
+			$videoUrlParts= explode('/', $videoUrl['path'])[2];
 			static::$result['videos'][] = intval($videoUrlParts);
 		}
 	}
