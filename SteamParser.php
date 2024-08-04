@@ -113,6 +113,8 @@ class SteamParser {
 	static public function parse(string $html) {
 		$internalErrors = libxml_use_internal_errors(true);
 		
+		static::$result = [];
+
 		$dom = new \DOMDocument;
 		$dom->loadHTML($html);
 		$finder = new \DomXPath($dom);
@@ -136,6 +138,9 @@ class SteamParser {
 		static::getVideos($finder);
 
 		libxml_use_internal_errors($internalErrors);
+
+		unset($dom);
+		unset($finder);
 
 		return static::$result;
 	}
