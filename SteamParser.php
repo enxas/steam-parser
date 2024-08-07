@@ -85,7 +85,9 @@ class SteamParser {
 		static::$result['features'] = $data;
 	}
 
-	static private function getImages($finder, $appId) { 
+	static private function getImages($finder) { 
+		static::$result['images'] = [];
+
 		$nodes = $finder->query("//div[@id='highlight_player_area']//a//@data-screenshotid");
 
 		foreach ($nodes as $tagNode) {
@@ -94,6 +96,8 @@ class SteamParser {
 	}
 		
 	static private function getVideos($finder) {
+		static::$result['videos'] = [];
+
 		$nodes = $finder->query("//div[@id='highlight_player_area']//div[contains(concat(' ', normalize-space(@class), ' '), ' highlight_movie ')]");
 		
 		foreach ($nodes as $tagNode) {
@@ -134,7 +138,7 @@ class SteamParser {
 		static::getPublishers($finder);
 		static::getFranchise($finder);
 		static::getFeatures($finder);
-		static::getImages($finder, static::$result['app_id']);
+		static::getImages($finder);
 		static::getVideos($finder);
 
 		libxml_use_internal_errors($internalErrors);
